@@ -1,0 +1,10 @@
+-- CreateTable
+CREATE TABLE "Car" (
+    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "brand" TEXT NOT NULL,
+    "model" TEXT NOT NULL,
+    "year" INTEGER NOT NULL,
+    "price" REAL NOT NULL,
+    "imageUrl" TEXT NOT NULL,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
