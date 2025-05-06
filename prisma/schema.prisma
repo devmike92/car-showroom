@@ -14,11 +14,13 @@ datasource db {
 }
 
 model Car {
-  id        Int      @id @default(autoincrement())
-  brand     String
-  model     String
-  year      Int
-  price     Float
-  imageUrl  String
-  createdAt DateTime @default(now())
+  id           Int      @id @default(autoincrement())
+  brand        String
+  model        String
+  year         Int
+  price        Float
+  imageUrl     String
+  vin          String   @unique
+  engineSerial String   @unique
+  createdAt    DateTime @default(now())
 }

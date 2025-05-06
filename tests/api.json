@@ -1,0 +1,281 @@
+{
+	"info": {
+		"_postman_id": "49feb868-3040-4068-aa62-954a8a671f5e",
+		"name": "car-showroom",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "44691507",
+		"_collection_link": "https://avila-systems-llc.postman.co/workspace/Avila-Systems-LLC~29e1bfb8-bb9a-4692-8133-f1654242662e/collection/44691507-49feb868-3040-4068-aa62-954a8a671f5e?action=share&source=collection_link&creator=44691507"
+	},
+	"item": [
+		{
+			"name": "emptydb",
+			"item": [
+				{
+					"name": "carsGet",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"  pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/cars",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"cars"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "carsInvalid",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Must fail with status 400\", () => {",
+									"  pm.response.to.have.status(400);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"brand\": \"\",\n  \"model\": \"\",\n  \"year\": 1500,\n  \"price\": -1,\n  \"imageUrl\": \"foto.png\",\n  \"vin\": \"\",\n  \"engineSerial\": \"\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/cars",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"cars"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "carsNewCar",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", () => {",
+									"  pm.response.to.have.status(201);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"brand\": \"Tesla\",\n  \"model\": \"Model 3\",\n  \"year\": 2023,\n  \"price\": 46000,\n  \"imageUrl\": \"https://example.com/tesla.jpg\",\n  \"vin\": \"5YJ3E1EA7KF123457\",\n  \"engineSerial\": \"TESLAENG000\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/cars",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"cars"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "initdb",
+			"item": [
+				{
+					"name": "carsVINDuplicated",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Must fail with status 400 if VIN already exists\", function () {",
+									"  pm.response.to.have.status(400);",
+									"",
+									"  const json = pm.response.json();",
+									"  pm.expect(json).to.have.property(\"error\");",
+									"  pm.expect(json.error).to.include(\"VIN\");",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"brand\": \"Tesla\",\n  \"model\": \"Model 3\",\n  \"year\": 2023,\n  \"price\": 46000,\n  \"imageUrl\": \"https://example.com/tesla.jpg\",\n  \"vin\": \"5YJ3E1EA7KF123457\",\n  \"engineSerial\": \"TESLAENG000\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/cars",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"cars"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "carsEngineDuplicated",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Must fail with status 400 if engineSerial already exists\", function () {",
+									"  pm.response.to.have.status(400);",
+									"",
+									"  const json = pm.response.json();",
+									"  pm.expect(json).to.have.property(\"error\");",
+									"  pm.expect(json.error).to.include(\"engine serial\");",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"brand\": \"Tesla\",\n  \"model\": \"Model 3\",\n  \"year\": 2023,\n  \"price\": 46000,\n  \"imageUrl\": \"https://example.com/tesla.jpg\",\n  \"vin\": \"5YJ3E1EA7KF123457\",\n  \"engineSerial\": \"TESLAENG000\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/cars",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"cars"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "carsNewCar2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Auto creado correctamente\", function () {",
+									"  pm.response.to.have.status(201);",
+									"",
+									"  const json = pm.response.json();",
+									"  pm.expect(json).to.have.property(\"id\");",
+									"  pm.expect(json).to.have.property(\"brand\");",
+									"  pm.expect(json).to.have.property(\"vin\");",
+									"  pm.expect(json).to.have.property(\"engineSerial\");",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"brand\": \"Ford\",\n  \"model\": \"Fiesta\",\n  \"year\": 2023,\n  \"price\": 22000,\n  \"imageUrl\": \"https://example.com/fiesta.jpg\",\n  \"vin\": \"5YJ3E1EA156354sdsd35\",\n  \"engineSerial\": \"FIESTA00021\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/cars",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"cars"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
